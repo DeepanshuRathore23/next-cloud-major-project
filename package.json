@@ -11,10 +11,13 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "bcrypt": "^6.0.0",
+    "crypto": "^1.0.1",
     "date-fns": "^4.1.0",
+    "fs": "^0.0.1-security",
     "heroicons": "^2.2.0",
     "next": "^16.0.7",
     "next-auth": "^5.0.0-beta.30",
+    "path": "^0.12.7",
     "postgres": "^3.4.7",
     "react": "19.2.0",
     "react-dom": "19.2.0"

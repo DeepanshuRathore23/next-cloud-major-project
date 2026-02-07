@@ -28,6 +28,7 @@ export async function authenticate(
   }
 }
 
+
 export async function signUp(prevState: string | undefined, formData: FormData) {
   const firstName = formData.get("first-name") as string;
   const lastName = formData.get("last-name") as string;

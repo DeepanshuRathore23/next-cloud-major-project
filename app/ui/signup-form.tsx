@@ -29,7 +29,7 @@ export default function SignupForm() {
                 type="text"
                 required
                 name="first-name"
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-black"
                 placeholder="John"
               />
             </div>
@@ -39,7 +39,7 @@ export default function SignupForm() {
                 type="text"
                 required
                 name="last-name"
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-black"
                 placeholder="Doe"
               />
             </div>
@@ -51,7 +51,7 @@ export default function SignupForm() {
               type="email"
               required
               name="email"
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-black"
               placeholder="john@example.com"
             />
           </div>
@@ -63,7 +63,7 @@ export default function SignupForm() {
               type="tel"
               required
               name="phone"
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-black"
               placeholder="+91 98765 43210"
             />
           </div>
@@ -75,7 +75,7 @@ export default function SignupForm() {
               type="date"
               required
               name="dob"
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-black"
             />
           </div>
 
@@ -85,7 +85,7 @@ export default function SignupForm() {
               type="password"
               required
               name="password"
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-black"
               placeholder="Create a strong password"
             />
           </div>

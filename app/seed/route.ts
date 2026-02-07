@@ -31,13 +31,32 @@ async function seedUser(){
 }
 
 
+async function seedFiles() {
+    await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    await sql`CREATE TABLE IF NOT EXISTS files (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    user_id UUID NOT NULL,
+
+    name VARCHAR(255) NOT NULL,
+    file_size BIGINT NOT NULL,
+
+    file_path TEXT NOT NULL,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES major_project_users(id) ON DELETE CASCADE
+);
+`
+}
+
+
+
 export async function GET() {
     try{
         await sql.begin(async (tx) => {
-            await seedUser();
+            await seedFiles();
         });
 
-        return Response.json({ message: 'Users seeded successfully' });
+        return Response.json({ message: 'files table created successfully' });
     } catch (error) {
         if(error instanceof AggregateError) {
             error.errors.forEach((err, index) => {

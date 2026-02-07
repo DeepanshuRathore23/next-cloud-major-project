@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { auth } from "@/auth";
 
 export default async function Navbar() {
-
+    const session = await auth();
+    const isLoggedIn = session?.user;
     return (
         <>
           <header className="bg-white border-b border-gray-200">
@@ -33,11 +35,27 @@ export default async function Navbar() {
                   </Link>
                   
                   
+                  { isLoggedIn ? (
+                    <>
+                      <Link href='/dashboard'>
+                        <Image
+                          width={70}
+                          height={70}
+                          className="border border-gray-300 px-3 py-1 rounded-md hover:bg-gray-50"
+                          src="/user.png"
+                          alt="user"
+                          
+                        />
+                      </Link>
+                      
+                    </>
+                  ) : (
                     <>
                       <Link href="/login" className="border border-gray-300 px-3 py-1 rounded-md hover:bg-gray-50">
                         Sign in
                       </Link>
                     </>
+                  )}
                   
 
                   
