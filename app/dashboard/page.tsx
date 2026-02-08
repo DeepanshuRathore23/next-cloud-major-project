@@ -2,16 +2,25 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import { signOut } from "@/auth";
+import { auth } from "@/auth";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
   // Mock data
+  const session = await auth();
+
+  console.log("Session : ", session);
+
   const user = {
-    name: "Deepanshu Sharma",
-    email: "deepa@example.com",
+    name: session?.user?.name || "" ,
+    email: session?.user?.email,
     storageUsed: 8.4,
     storageTotal: 15,
     plan: "Free Plan",
   };
+
+  
+
+
 
   const recentFiles = [
     { name: "project-proposal.pdf", size: "2.4 MB", date: "2025-11-18", type: "PDF" },

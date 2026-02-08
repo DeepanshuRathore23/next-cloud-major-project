@@ -12,14 +12,17 @@ type FileItem = {
 export default function page() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  
 
   async function fetchFiles() {
-    const res = await fetch('/api/fetchFiles');
-    if (!res.ok) {
-      throw new Error('Failed to fetch files');
-    }
-    const data = await res.json();
-    setFiles(data);
+      const res = await fetch('/api/fetchFiles');
+      if (!res.ok) {
+        throw new Error('Failed to fetch files');
+      }
+      const data = await res.json();
+      setFiles(data);
   }
 
   useEffect(() => {
@@ -48,12 +51,35 @@ export default function page() {
       }
 
       alert('File uploaded successfully');
+      fetchFiles();
+      
       // later: re-fetch images from DB
     } catch (err) {
       console.error(err);
       alert('Error uploading file');
     } finally {
       setUploading(false);
+    }
+
+    
+  }
+
+  async function hangleFileDelete(id: string) {
+    try{
+      setDeletingId(id);
+      const res = await fetch(`api/deleteFile/${id}`, {
+        method: "DELETE"
+      });
+
+      if(res.ok) {
+        alert("File Deleted Successfully");
+      } else {
+        console.error("Failed to delete the file");
+      }
+      setDeletingId(null);
+      fetchFiles();
+    } catch(err) {
+      console.error("Failed to delete file: ", err);
     }
   }
 
@@ -138,13 +164,13 @@ export default function page() {
                 </a>
 
                 {/* Delete */}
-                <a
-                  href={`/api/deleteFile/${file.id}`}
-                  download
-                  className="inline-block rounded-lg bg-red-500 px-4 py-2 text-sm text-black hover:bg-red-600 ml-5"
+                <button
+                  onClick={() => hangleFileDelete(file.id)}
+                  disabled = {deletingId == file.id}
+                  className={`inline-block cursor-pointer rounded-lg ${deletingId == file.id ? "bg-red-500 cursor-not-allowed" : "bg-red-500"} px-4 py-2 text-sm text-black hover:bg-red-600 ml-5`}
                 >
-                  Delete
-                </a>
+                  {deletingId == file.id ? "Deleting File..." : "Delete"}
+                </button>
               </div>
             ))}
           </div>
