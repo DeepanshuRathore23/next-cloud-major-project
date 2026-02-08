@@ -100,7 +100,7 @@ export default function page() {
           <label className="block">
             <input
               type="file"
-              accept="image/jpeg,image/png,image/jpg"
+              // accept="image/jpeg,image/png,image/jpg"
               onChange={handleFileUpload}
               className="hidden"
             />
@@ -156,8 +156,8 @@ export default function page() {
 
                 {/* Download */}
                 <a
-                  href={`/api/files/${file.id}`}
-                  download
+                  href={`api/files/${file.id}`}
+                  
                   className="inline-block rounded-lg bg-slate-100 px-4 py-2 text-sm text-black hover:bg-slate-200"
                 >
                   Download
