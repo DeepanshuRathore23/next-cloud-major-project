@@ -1,0 +1,8 @@
+1- Improve image loading
+2- Make site fast
+3- Add ERP System also
+        - fee payments
+        - students academics details
+        - students attendance
+        
+4- Online class

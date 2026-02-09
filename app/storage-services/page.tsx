@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import FileGridLoading from '../ui/file-grid-loading';
 
 
 type FileItem = {
@@ -13,17 +14,27 @@ export default function page() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [uploading, setUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [loadingFiles, setLoadingFiles] = useState(true);
 
   
 
   async function fetchFiles() {
-      const res = await fetch('/api/fetchFiles');
-      if (!res.ok) {
-        throw new Error('Failed to fetch files');
-      }
-      const data = await res.json();
-      setFiles(data);
+  try {
+    setLoadingFiles(true);
+
+    const res = await fetch('/api/fetchFiles');
+    if (!res.ok) {
+      throw new Error('Failed to fetch files');
+    }
+
+    const data = await res.json();
+    setFiles(data);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoadingFiles(false);
   }
+}
 
   useEffect(() => {
     fetchFiles();
@@ -111,70 +122,82 @@ export default function page() {
         </div>
 
         {/* Uploaded Images */}
+        {/* Uploaded Images */}
         <div>
           <h3 className="mb-6 text-2xl font-semibold text-slate-900">
             Uploaded Files
           </h3>
 
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {files.map((file) => (
-              <div
-                key={file.id}
-                className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200"
-              >
-                {/* Preview */}
-                <a
-                  href={`/api/files/${file.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block mb-3"
+          {loadingFiles ? (
+            <FileGridLoading />
+          ) : files.length === 0 ? (
+            <p className="text-slate-500">No files uploaded yet.</p>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+              {files.map((file) => (
+                <div
+                  key={file.id}
+                  className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200"
                 >
-                  {isImage(file.name) ? (
-                    <img
-                      src={`/api/files/${file.id}`}
-                      alt={file.name}
-                      className="h-40 w-full rounded-lg object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-40 items-center justify-center rounded-lg bg-slate-100 text-4xl">
-                      📄
-                    </div>
-                  )}
-                </a>
+                  {/* Preview */}
+                  <a
+                    href={`/api/files/${file.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block mb-3"
+                  >
+                    {isImage(file.name) ? (
+                      <img
+                        src={`/api/files/${file.id}`}
+                        alt={file.name}
+                        className="h-40 w-full rounded-lg object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-40 items-center justify-center rounded-lg bg-slate-100 text-4xl">
+                        📄
+                      </div>
+                    )}
+                  </a>
 
-                <p className="font-medium text-slate-800 truncate">
-                  {file.name}
-                </p>
+                  <p className="font-medium text-slate-800 truncate">
+                    {file.name}
+                  </p>
 
-                <p className="text-sm text-slate-500">
-                  {(file.file_size / 1024).toFixed(1)} KB
-                </p>
+                  <p className="text-sm text-slate-500">
+                    {(file.file_size / 1024).toFixed(1)} KB
+                  </p>
 
-                <p className="text-xs text-slate-400 mb-3">
-                  Uploaded: {new Date(file.uploaded_at).toLocaleDateString()}
-                </p>
+                  <p className="text-xs text-slate-400 mb-3">
+                    Uploaded: {new Date(file.uploaded_at).toLocaleDateString()}
+                  </p>
 
-                {/* Download */}
-                <a
-                  href={`api/files/${file.id}`}
-                  
-                  className="inline-block rounded-lg bg-slate-100 px-4 py-2 text-sm text-black hover:bg-slate-200"
-                >
-                  Download
-                </a>
+                  {/* Download */}
+                  <a
+                    href={`/api/files/${file.id}`}
+                    className="inline-block rounded-lg bg-slate-100 px-4 py-2 text-sm text-black hover:bg-slate-200"
+                  >
+                    Download
+                  </a>
 
-                {/* Delete */}
-                <button
-                  onClick={() => hangleFileDelete(file.id)}
-                  disabled = {deletingId == file.id}
-                  className={`inline-block cursor-pointer rounded-lg ${deletingId == file.id ? "bg-red-500 cursor-not-allowed" : "bg-red-500"} px-4 py-2 text-sm text-black hover:bg-red-600 ml-5`}
-                >
-                  {deletingId == file.id ? "Deleting File..." : "Delete"}
-                </button>
-              </div>
-            ))}
-          </div>
+                  {/* Delete */}
+                  <button
+                    onClick={() => hangleFileDelete(file.id)}
+                    disabled={deletingId === file.id}
+                    className={`ml-5 inline-block rounded-lg px-4 py-2 text-sm text-black
+                      ${
+                        deletingId === file.id
+                          ? 'bg-red-400 cursor-not-allowed'
+                          : 'bg-red-500 hover:bg-red-600'
+                      }`}
+                  >
+                    {deletingId === file.id ? 'Deleting File...' : 'Delete'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+
 
       </div>
     </div>

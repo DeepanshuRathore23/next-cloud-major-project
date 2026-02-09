@@ -1,6 +1,6 @@
 'use server';
  
-import { signIn } from '@/auth';
+import { signIn, signOut } from '@/auth';
 import postgres from 'postgres';
 import { AuthError } from 'next-auth';
 import bcrypt from 'bcrypt';
@@ -28,6 +28,9 @@ export async function authenticate(
   }
 }
 
+export async function signOutAction() {
+  await signOut({redirectTo: '/'});
+}
 
 export async function signUp(prevState: string | undefined, formData: FormData) {
   const firstName = formData.get("first-name") as string;
